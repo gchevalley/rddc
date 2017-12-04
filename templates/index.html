@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en" ng-app="rddcApp">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Create a new Dot</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-animate.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-aria.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular-messages.min.js"></script>
+
+  <!-- Angular Material Library -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.5/angular-material.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.5/angular-material.min.js"></script>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body ng-controller="RddcController">
+  <div class="container">
+    <h1>{a data.title a}</h1>
+
+    <form>
+      <md-input-container>
+        <label>Eval for:</label>
+        <md-select ng-model="target">
+          <md-option ng-repeat="item in data.team" ng-value="item">{a item a}</md-option>
+        </md-select>
+      </md-input-container>
+
+      <div class="row">
+
+        <md-radio-group ng-model="eval">
+          <div class="col-md-4">
+            <p>5 State process</p>
+            <md-radio-button ng-repeat="d in data.cat.five_state_process" ng-value="d">
+              {a d a}
+            </md-radio-button>
+            <hr />
+          </div>
+
+          <div class="col-md-4">
+            <md-radio-button ng-repeat="d in data.cat.values_fundamentals" ng-value="d">
+              {a d a}
+            </md-radio-button>
+            <hr />
+          </div>
+        </md-radio-group>
+      </div>
+
+      <div layout>
+        <div flex="10" layout layout-align="center center">
+          <span class="md-body-1">Rating</span>
+        </div>
+        <md-slider flex md-discrete ng-model="rating" step="1" min="1" max="5" aria-label="rating">
+        </md-slider>
+      </div>
+
+      <md-button ng-click="submit()" class="md-raised">Submit</md-button>
+    </form>
+  </div>
+
+
+  <script>
+  var app = angular.module('rddcApp', ['ngMaterial'] );
+  app.config(['$interpolateProvider', function($interpolateProvider) {
+    $interpolateProvider.startSymbol('{a');
+    $interpolateProvider.endSymbol('a}');
+  }]);
+
+  app.controller('RddcController', function($scope, $http) {
+    $scope.data = {
+      title: 'Create a new dot',
+      team: ['jbiasse', 'gchevalley', 'agrajoszex', 'yhouboson', 'blament', 'jstouff', 'fsalvagni', 'otuti'],
+      target: '',
+      eval: '',
+      rating: 3,
+      cat: {
+        five_state_process: ['pif', 'paf', 'pouf'],
+        values_fundamentals: ['riri', 'fifi', 'loulou'],
+      }
+    };
+
+    $scope.submit = function() {
+      console.log($scope.target);
+      console.log($scope.eval);
+      console.log($scope.rating);
+    };
+  });
+
+  </script>
+
+</body>
+
+</html>
