@@ -1,0 +1,21 @@
+db:
+  hostname: ${MONGO_HOST}
+  image: mongo:3
+
+db-seed:
+  build: ./db-seed
+  links:
+    - db
+
+api:
+  build: .
+  command: python /usr/src/app/rddc.py
+  ports:
+   - "5001:5000"
+  volumes:
+   - .:/usr/src/app
+  links:
+   - db
+  environment:
+   - MONGO_HOST=${MONGO_HOST}
+  hostname: myappserver

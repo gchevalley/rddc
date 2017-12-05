@@ -24,79 +24,84 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
-<body ng-controller="RddcController">
-  <div class="container">
-    <h1>{a data.title a}</h1>
+<body ng-controller="RddcController" style="padding-top: 70px;">
 
-    <form>
-      <md-input-container>
-        <label>Eval for:</label>
-        <md-select ng-model="target">
-          <md-option ng-repeat="item in data.team" ng-value="item">{a item a}</md-option>
-        </md-select>
-      </md-input-container>
+  <nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Create a new dot</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+
+    </div><!-- /.container-fluid -->
+  </nav>
+
+  <div class="container">
+    <!--<h1>{a data.title a}</h1>-->
+
+    <form name="userForm" novalidate ng-submit="userForm.$valid && submit()">
+      <div class="row">
+        <div class="col-md-4">
+          <md-input-container>
+            <label>Eval for:</label>
+            <md-select ng-model="data.target" required>
+              <md-option ng-repeat="item in data.team" ng-value="item">{a item a}</md-option>
+            </md-select>
+          </md-input-container>
+        </div>
+      </div>
 
       <div class="row">
-
-        <md-radio-group ng-model="eval">
-          <div class="col-md-4">
-            <p>5 State process</p>
-            <md-radio-button ng-repeat="d in data.cat.five_state_process" ng-value="d">
-              {a d a}
-            </md-radio-button>
-            <hr />
-          </div>
-
-          <div class="col-md-4">
-            <md-radio-button ng-repeat="d in data.cat.values_fundamentals" ng-value="d">
-              {a d a}
-            </md-radio-button>
-            <hr />
+        <md-radio-group ng-model="data.eval" class="md-primary" required>
+          <div ng-repeat="(k, cat) in data.cats">
+            <!--<div ng-class="k % 3 == 0 ? 'row' : 'blub'">-->
+            <div class="col-md-4">
+              <p><strong>{a cat.header a}</strong></p>
+              <md-radio-button ng-repeat="c in cat.choices" ng-value="c">
+                {a c a}
+              </md-radio-button>
+              <hr />
+            </div>
+            <!--</div>-->
           </div>
         </md-radio-group>
       </div>
 
-      <div layout>
-        <div flex="10" layout layout-align="center center">
-          <span class="md-body-1">Rating</span>
+      <div class="row">
+        <div class="col-md-4">
+          <div flex="10" layout layout-align="center center">
+            <span class="md-body-1">RATING</span>
+          </div>
+          <md-slider flex class="md-primary" md-discrete ng-model="data.rating" step="1" min="1" max="5" aria-label="rating" required>
+          </md-slider>
         </div>
-        <md-slider flex md-discrete ng-model="rating" step="1" min="1" max="5" aria-label="rating">
-        </md-slider>
+
+        <div class="col-md-4">
+          <div flex="10" layout layout-align="center center">
+            <span class="md-body-1">IMPORTANCE</span>
+          </div>
+          <md-slider flex md-discrete ng-model="data.importance" step="1" min="1" max="5" aria-label="importance" required>
+          </md-slider>
+        </div>
+
       </div>
 
-      <md-button ng-click="submit()" class="md-raised">Submit</md-button>
+      <div class="row">
+        <md-button type="submit" class="md-raised">Submit</md-button>
+      </div>
     </form>
   </div>
 
 
-  <script>
-  var app = angular.module('rddcApp', ['ngMaterial'] );
-  app.config(['$interpolateProvider', function($interpolateProvider) {
-    $interpolateProvider.startSymbol('{a');
-    $interpolateProvider.endSymbol('a}');
-  }]);
-
-  app.controller('RddcController', function($scope, $http) {
-    $scope.data = {
-      title: 'Create a new dot',
-      team: ['jbiasse', 'gchevalley', 'agrajoszex', 'yhouboson', 'blament', 'jstouff', 'fsalvagni', 'otuti'],
-      target: '',
-      eval: '',
-      rating: 3,
-      cat: {
-        five_state_process: ['pif', 'paf', 'pouf'],
-        values_fundamentals: ['riri', 'fifi', 'loulou'],
-      }
-    };
-
-    $scope.submit = function() {
-      console.log($scope.target);
-      console.log($scope.eval);
-      console.log($scope.rating);
-    };
-  });
-
-  </script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 
 </body>
 
